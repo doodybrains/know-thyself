@@ -3,6 +3,56 @@ html
   head
     link(rel='stylesheet', href='/main.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Arvo')
+    script(src='/js/paper-full.js')
   body
-    div.container
-      h1.title= 'know thyself'
+    div.header
+      h1= 'know thyself'
+    div#wrap
+      video(autoplay="true" id="videoElement")
+    div.paperscript
+      canvas(id="myCanvas" resize="true")
+
+    script(type="text/javascript").
+      var video = document.querySelector("#videoElement");
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+      if (navigator.getUserMedia) {
+        navigator.getUserMedia({video: true}, handleVideo, videoError);
+      }
+      function handleVideo(stream) {
+        video.src = window.URL.createObjectURL(stream);
+      }
+      function videoError(e) {
+        alert('this site needs access to your camera')
+      }
+
+      paper.install(window);
+      window.onload = function() {
+        handleResize();
+        paper.setup('myCanvas');
+        var tool = new Tool();
+        var path;
+
+        tool.onMouseDown = function(event) {
+          path = new Path();
+          path.strokeColor = 'black';
+          path.strokeWidth = 4;
+          path.add(event.point);
+        }
+
+        tool.onMouseDrag = function(event) {
+          if(event.modifiers.shift) {
+            path.lastSegment.point = event.point; path.simplify();
+          } else {
+            path.add(event.point);
+          }
+        }
+      }
+
+      window.addEventListener("resize", handleResize);
+      function handleResize() {
+        console.log('res');
+        var canvas = document.getElementById('myCanvas');
+        var bod = document.getElementById('wrap');
+        var w = bod.offsetWidth;
+        var h = bod.offsetHeight;
+      }

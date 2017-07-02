@@ -1,4 +1,53 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 body, html {
   font-family: 'Arvo', serif;
   text-align: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  border: 2px 3px 10px 3px solid blue;
+  overflow: hidden;
+  width: 100%;
+}
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+#wrap {
+  border: 4px solid blue;
+  width: 50%;
+  height: 100vh;
+  float: left;
+  overflow: hidden;
+
+  video {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+canvas {
+  border: 4px solid blue;
+  min-height: 100vh;
+  z-index: 999999
+}
+
+canvas[resize] {
+  width: 50%;
+  height: 100%;
 }
